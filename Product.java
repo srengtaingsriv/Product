@@ -12,20 +12,21 @@ public class Main {
         try (Connection conn = DriverManager.getConnection(jdbcUrl, username, password);
              Statement stmt = conn.createStatement()) {
 
-            String sqlQuery = "SELECT * FROM Product";
+            String sqlQuery = "SELECT id, name, price_per_unit, active_for_sell, created_at FROM Product";
             ResultSet rs = stmt.executeQuery(sqlQuery);
 
-            System.out.println("Product List:");
-            System.out.println("ID | Name       | Price per Unit | Active for Sell");
-            System.out.println("-----------------------------------------------");
+            System.out.println("Product Inventory:");
+            System.out.println("ID | Name       | Price | Active | Created At");
+            System.out.println("-----------------------------------------------------");
 
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
                 double pricePerUnit = rs.getDouble("price_per_unit");
                 boolean activeForSell = rs.getBoolean("active_for_sell");
+                String createdAt = rs.getString("created_at");
 
-                System.out.printf("%2d | %-10s | %-14.2f | %-14b\n", id, name, pricePerUnit, activeForSell);
+                System.out.printf("%2d | %-10s | %7.2f | %-6b | %-19s\n", id, name, pricePerUnit, activeForSell, createdAt);
             }
 
         } catch (Exception e) {
